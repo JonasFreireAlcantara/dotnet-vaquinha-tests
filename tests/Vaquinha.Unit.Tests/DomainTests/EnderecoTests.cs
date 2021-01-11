@@ -92,6 +92,20 @@ namespace Vaquinha.Unit.Tests.DomainTests
             endereco.ErrorMessages.Should().Contain("O campo Número deve possuir no máximo 6 caracteres", because: "o campo Complemento ultrapassou tamanho máximo permitido.");
         }
         
+        [Fact]
+        [Trait("Endereco", "Endereco_EnderecoEstadoInvalido_EnderecoInvalido")]
+        public void Endereco_EnderecoEstadoInvalido_EnderecoInvalido()
+        {
+            // Arrange
+            var endereco = _fixture.EnderecoEstadoInvalido();
 
+            // Act
+            var valido = endereco.Valido();
+
+            // Assert
+            valido.Should().BeFalse(because: "tamanho do estado deve ser 2 caracteres");
+            endereco.ErrorMessages.Should().HaveCount(1, because: "apenas o campo estado é inválido");
+            endereco.ErrorMessages.Should().Contain("Campo Estado inválido", because: "o campo Estado não contém 2 caracteres");
+        }
     }
 }
