@@ -49,7 +49,7 @@ namespace Vaquinha.Domain.Entities
             RuleFor(a => a.Nome)
                 .NotEmpty().WithMessage("O campo Nome é obrigatório.")
                 .When(a => a.Anonima == false)
-                .MaximumLength(MAX_LENTH_CAMPOS).WithMessage("O campo Nome deve possuir no máximo 150 caracteres.");
+                .MaximumLength(MAX_LENTH_CAMPOS).WithMessage($"O campo Nome deve possuir no máximo {MAX_LENTH_CAMPOS} caracteres.");
 
             RuleFor(a => a.Email)
                 .NotEmpty().WithMessage("O campo Email é obrigatório.")

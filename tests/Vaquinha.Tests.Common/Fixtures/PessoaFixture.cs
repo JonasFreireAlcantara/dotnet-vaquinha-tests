@@ -65,6 +65,31 @@ namespace Vaquinha.Tests.Common.Fixtures
             return faker.Generate();
         }
 
+        public Pessoa PessoaValidaAnonimaNomeVazio()
+        {
+            var genero = new Faker().PickRandom<Name.Gender>();
+
+            var faker = new Faker<Pessoa>("pt_BR");
+
+            faker.CustomInstantiator(f =>
+                new Pessoa(Guid.NewGuid(), string.Empty, string.Empty, true, f.Lorem.Sentence(30)))
+                .RuleFor(c => c.Email, (f, c) => f.Internet.Email("firstname", "lastname"));
+
+            return faker.Generate();
+        }
+
+        public Pessoa PessoaInvalidaNomeVazio()
+        {
+            var genero = new Faker().PickRandom<Name.Gender>();
+
+            var faker = new Faker<Pessoa>("pt_BR");
+
+            faker.CustomInstantiator(f =>
+                new Pessoa(Guid.NewGuid(), string.Empty, f.Internet.Email("firstname", "lastname"), false, f.Lorem.Sentence(30)));
+
+            return faker.Generate();
+        }
+
         public Pessoa PessoaVazia()
         {
             return new Pessoa(Guid.Empty, string.Empty, string.Empty, false, string.Empty);

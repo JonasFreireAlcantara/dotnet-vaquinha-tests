@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Xunit;
 using Vaquinha.Tests.Common.Fixtures;
+using Xunit;
 
 namespace Vaquinha.Unit.Tests.DomainTests
 {
@@ -27,6 +27,37 @@ namespace Vaquinha.Unit.Tests.DomainTests
             // Assert
             valido.Should().BeTrue(because: "os campos foram preenchidos corretamente");
             pessoa.ErrorMessages.Should().BeEmpty();            
+        }
+
+        [Fact]
+        [Trait("Pessoa", "Pessoa_NomeVazioAnonima_PessoaValida")]
+        public void Pessoa_NomeVazioAnonima_PessoaValida()
+        {
+            // Arrange
+            var pessoa = _fixture.PessoaValidaAnonimaNomeVazio();
+
+            // Act
+            var valido = pessoa.Valido();
+
+            // Assert
+            valido.Should().BeTrue(because: "nome vazio, porém é anônima");
+            pessoa.ErrorMessages.Should().BeEmpty();
+        }
+
+        [Fact]
+        [Trait("Pessoa", "Pessoa_NomeVazio_PessoaInvalida")]
+        public void Pessoa_NomeVazio_PessoaInvalida()
+        {
+            // Arrange
+            var pessoa = _fixture.PessoaInvalidaNomeVazio();
+
+            // Act
+            var valido = pessoa.Valido();
+
+            // Assert
+            valido.Should().BeFalse(because: "campo Nome é obrigatório");
+            pessoa.ErrorMessages.Should().HaveCount(1, because: "apenas o campo Nome não foi informado.");
+            pessoa.ErrorMessages.Should().Contain("O campo Nome é obrigatório.", because: "o campo Nome não foi informado.");
         }
 
         [Fact]
